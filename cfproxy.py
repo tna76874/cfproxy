@@ -20,7 +20,7 @@ if isinstance(cfbase,type(None)):
 
 app = Flask(__name__)
 
-cf = CloudflaredManager(port=port, host = destination, path=cfbase)
+cf = CloudflaredManager(port=port, host = destination, path=cfbase, keep_alive=True)
 cf.start()
 
 @app.route('/', defaults={'path': ''})
