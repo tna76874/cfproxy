@@ -23,8 +23,9 @@ app = Flask(__name__)
 cf = CloudflaredManager(port=port, host = destination, path=cfbase)
 cf.start()
 
-@app.route('/')
-def redirect_to_new_location():
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def redirect_to_new_location(path):
     full_original_path = request.full_path
     print(full_original_path)
     return redirect(cf.tunnel_url + full_original_path, code=302)
