@@ -20,6 +20,13 @@ if isinstance(cfbase,type(None)):
 
 app = Flask(__name__)
 
+ignored_user_agents = [
+    'curl',
+    'wget',
+    'python-requests',
+    'httpie',
+]
+
 cf = CloudflaredManager(port=port, host = destination, path=cfbase, keep_alive=True)
 cf.start()
 
@@ -27,7 +34,11 @@ cf.start()
 @app.route('/<path:path>')
 def redirect_to_new_location(path):
     full_original_path = request.full_path
-    print(full_original_path)
+
+    user_agent = request.headers.get('User-Agent', '').lower()
+    if any(agent in user_agent for agent in ignored_user_agents):
+        return '', 204 
+
     return redirect(cf.tunnel_url + full_original_path, code=302)
 
 if __name__ == '__main__':
