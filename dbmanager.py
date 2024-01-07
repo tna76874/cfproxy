@@ -9,6 +9,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime, timedelta
 import hashlib
+import os
 
 Base = declarative_base()
 
@@ -20,10 +21,21 @@ class Redirect(Base):
     date = Column(DateTime(timezone=True), server_default=text('CURRENT_TIMESTAMP'))
 
 class DatabaseManager:
-    def __init__(self):
-        self.engine = create_engine('sqlite:///data.db', echo=False)
+    def __init__(self, db_path = 'data.db'):
+        self._ensure_dir(db_path)
+        self.engine = create_engine(f'sqlite:///{db_path}', echo=False)
         
         Base.metadata.create_all(self.engine)
+
+    def _ensure_dir(self, directory_path):
+        try:
+            directory_path = os.path.dirname(directory_path)                
+            
+            if not os.path.exists(directory_path):
+                os.makedirs(directory_path)
+                print(f"Base folder {directory_path} successfully created.")
+        except Exception as e:
+            print(f"Error creating base folder {directory_path}: {str(e)}")
 
     def add_event(self, to, source):
         hashed_source = self.hash_string(source)
@@ -75,7 +87,7 @@ class DatabaseManager:
 
 if __name__ == "__main__":
     # Beispiel für die Nutzung der DatabaseManager-Klasse
-    db_manager = DatabaseManager()
+    db_manager = DatabaseManager(db_path = 'data.db')
     
     db_manager.get_redirect_statistics()
     

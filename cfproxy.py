@@ -5,7 +5,7 @@ from quickflare.quickflare import CloudflaredManager
 import os
 from dbmanager import *
 
-db_manager = DatabaseManager()
+db_manager = DatabaseManager(db_path = 'data/data.db')
 db_manager.get_redirect_statistics()
 
 port = os.environ.get("CFPROXY_PORT")
