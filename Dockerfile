@@ -3,6 +3,7 @@ FROM python:3.9
 WORKDIR /app
 
 COPY cfproxy.py /app/cfproxy.py
+COPY dbmanager.py /app/dbmanager.py
 COPY requirements.txt /app/requirements.txt
 
 ENV CFPROXY_CFBASE='/app'
