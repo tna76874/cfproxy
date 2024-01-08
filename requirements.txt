@@ -10,7 +10,7 @@ itsdangerous==2.1.2
 Jinja2==3.1.2
 MarkupSafe==2.1.3
 packaging==23.2
-quickflare @ git+https://github.com/tna76874/quickflare.git@ed55c9ec8d45b8e813777e16446e4eb1d97cba8d
+quickflare @ git+https://github.com/tna76874/quickflare.git@075b50a6bfcfaa5096efcf65f80a037bbb301639
 requests==2.31.0
 urllib3==2.1.0
 Werkzeug==3.0.1
